@@ -1,6 +1,7 @@
-<div class="row">
-  <%= if Plug.Conn.get_session(@conn, "user_id") do %>
-    <%= form_for @conn, Routes.channel_path(@conn, :search), [method: :post, class: "form-inline"], fn f -> %>
+<%= if Plug.Conn.get_session(@conn, "user_id") do %>
+  <div class="row">
+    <div class="col-12">
+      <%= form_for @conn, Routes.channel_path(@conn, :search), [method: :post, class: "form-inline"], fn f -> %>
       <div class="form-group mr-2">
         <%= text_input f, :query, placeholder: "Search for a youtube channel" %>
       </div>
@@ -11,24 +12,20 @@
         <%= submit "Search", class: "btn btn-primary"%>
       </div>
     <% end %>
-  <% else %>
-    <div class="col-sm-12 col-md-12 col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card-title">Create user:</h3>
-          <hr>
-          <%= render UserView, "form.html", changeset: Accounts.change_user(%Accounts.User{}), action: Routes.user_path(@conn, :create) %>
+  </div>
+  </div>
+  <div class="row">
+    <%= for channel <- current_user(@conn).channels do %>
+      <div class="col-sm-12 col-md-12 col-lg-4">
+        <div class="card mb-2">
+          <img class="card-img-top" src="<%= channel.image_url %>" alt="Card image cap">
+          <div class="card-body">
+            <h4 class="card-title"><%= channel.title %></h4>
+            <p class="card-text"><%= channel.description %></p>
+            <%# <a href="#!" class="btn btn-primary">Go somewhere</a> %>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-sm-12 col-md-12 col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="card=title">See a user's tracked channels:</h3>
-          <hr>
-          <%= render SessionView, "new.html", conn: @conn%>
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
+    <% end %>
+  </div>
+<% end %>

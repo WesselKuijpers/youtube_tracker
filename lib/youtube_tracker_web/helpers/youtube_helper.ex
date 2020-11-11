@@ -19,15 +19,15 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
 
   def search_channels(query, quantity) do
     base_link = "https://www.googleapis.com/youtube/v3/search"
-    params = [
+    params = %{
       q: query,
       part: "snippet",
       key: key(),
       type: "channel",
       maxResults: quantity
-    ]
+    }
 
-    APIHelper.make_call(base_link, params)
+    APIHelper.get_response(base_link, params, :atoms)
   end
 
   def map_channels(%{items: items}) do

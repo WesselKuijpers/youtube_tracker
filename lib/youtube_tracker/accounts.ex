@@ -36,6 +36,7 @@ defmodule YoutubeTracker.Accounts do
     User
     |> Repo.all()
     |> Repo.preload(:credential)
+    |> Repo.preload(:channels)
   end
 
   @doc """
@@ -56,6 +57,7 @@ defmodule YoutubeTracker.Accounts do
     User
     |> Repo.get!(id)
     |> Repo.preload(:credential)
+    |> Repo.preload(:channels)
   end
 
   @doc """
@@ -94,6 +96,14 @@ defmodule YoutubeTracker.Accounts do
     |> User.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:credential, with: &Credential.changeset/2)
     |> Repo.update()
+  end
+
+  def add_channel_to_user(channel, %User{} = user) do
+    user
+    |> Repo.preload(:channels)
+    |> Ecto.Changeset.change
+    |> Ecto.Changeset.put_assoc(:channels, [channel | user.channels])
+    |> Repo.update!()
   end
 
   @doc """

@@ -3,7 +3,7 @@ defmodule YoutubeTracker.Repo.Migrations.CreateChannels do
 
   def change do
     create table(:channels) do
-      add :youtubeID, :string
+      add :youtube_id, :string
       add :title, :string
       add :description, :string
       add :image_url, :string

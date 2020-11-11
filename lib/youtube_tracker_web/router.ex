@@ -23,7 +23,7 @@ defmodule YoutubeTrackerWeb.Router do
       only: [:create, :delete],
       singleton: true
 
-    resources "/channels", ChannelController
+    post "/channels/create", ChannelController, :create
     post "/channels/search", ChannelController, :search
   end
 
