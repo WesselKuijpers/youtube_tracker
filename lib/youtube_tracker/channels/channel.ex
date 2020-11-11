@@ -7,7 +7,10 @@ defmodule YoutubeTracker.Channels.Channel do
     field :image_url, :string
     field :title, :string
     field :youtube_id, :string
-    many_to_many(:users, YoutubeTracker.Accounts.User, join_through: YoutubeTracker.Channels.UsersChannels)
+
+    many_to_many(:users, YoutubeTracker.Accounts.User,
+      join_through: YoutubeTracker.Channels.UsersChannels
+    )
 
     timestamps()
   end

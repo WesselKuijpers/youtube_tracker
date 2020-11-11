@@ -7,7 +7,6 @@ defmodule YoutubeTracker.Channels do
   alias YoutubeTracker.Repo
 
   alias YoutubeTracker.Channels.Channel
-  alias YoutubeTracker.Accounts
 
   @doc """
   Returns the list of channels.
@@ -38,7 +37,8 @@ defmodule YoutubeTracker.Channels do
   """
   def get_channel!(id), do: Repo.get!(Channel, id)
 
-  def get_channel_by_youtube_id!(youtube_id), do: Repo.one(from c in Channel, where: c.youtube_id == ^youtube_id)
+  def get_channel_by_youtube_id!(youtube_id),
+    do: Repo.one(from c in Channel, where: c.youtube_id == ^youtube_id)
 
   @doc """
   Creates a channel.

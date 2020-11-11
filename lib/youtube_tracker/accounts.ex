@@ -101,7 +101,7 @@ defmodule YoutubeTracker.Accounts do
   def add_channel_to_user(channel, %User{} = user) do
     user
     |> Repo.preload(:channels)
-    |> Ecto.Changeset.change
+    |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:channels, [channel | user.channels])
     |> Repo.update!()
   end

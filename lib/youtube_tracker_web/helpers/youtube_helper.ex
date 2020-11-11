@@ -19,6 +19,7 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
 
   def search_channels(query, quantity) do
     base_link = "https://www.googleapis.com/youtube/v3/search"
+
     params = %{
       q: query,
       part: "snippet",
@@ -31,7 +32,14 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
   end
 
   def map_channels(%{items: items}) do
-    for %{id: %{channelId: id}, snippet: %{title: title, description: description, thumbnails: %{high: %{url: thumbnail_url}}}} <- items do
+    for %{
+          id: %{channelId: id},
+          snippet: %{
+            title: title,
+            description: description,
+            thumbnails: %{high: %{url: thumbnail_url}}
+          }
+        } <- items do
       [
         id: id,
         title: title,
