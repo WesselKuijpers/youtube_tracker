@@ -1,0 +1,32 @@
+<h1>Listing Channels</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Youtubeid</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Image url</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for channel <- @channels do %>
+    <tr>
+      <td><%= channel.youtubeID %></td>
+      <td><%= channel.title %></td>
+      <td><%= channel.description %></td>
+      <td><%= channel.image_url %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.channel_path(@conn, :show, channel) %></span>
+        <span><%= link "Edit", to: Routes.channel_path(@conn, :edit, channel) %></span>
+        <span><%= link "Delete", to: Routes.channel_path(@conn, :delete, channel), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Channel", to: Routes.channel_path(@conn, :new) %></span>

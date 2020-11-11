@@ -1,0 +1,28 @@
+<h1>Show Channel</h1>
+
+<ul>
+
+  <li>
+    <strong>Youtubeid:</strong>
+    <%= @channel.youtubeID %>
+  </li>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @channel.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @channel.description %>
+  </li>
+
+  <li>
+    <strong>Image url:</strong>
+    <%= @channel.image_url %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.channel_path(@conn, :edit, @channel) %></span>
+<span><%= link "Back", to: Routes.channel_path(@conn, :index) %></span>

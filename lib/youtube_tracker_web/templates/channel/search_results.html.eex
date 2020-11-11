@@ -1,0 +1,14 @@
+<div class="row">
+    <%= for result <- @results do%>
+        <div class="col-sm-12 col-md-12 col-lg-4">
+            <div class="card mb-2">
+            <img class="card-img-top" src="<%= result[:thumbnail_url] %>" alt="Card image cap">
+                <div class="card-body">
+                    <h4 class="card-title"><%= result[:title] %></h4>
+                    <p class="card-text"><%= result[:description] %></p>
+                    <a href="#!" class="btn btn-primary">Track!</a>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

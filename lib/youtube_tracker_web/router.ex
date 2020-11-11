@@ -22,6 +22,9 @@ defmodule YoutubeTrackerWeb.Router do
     resources "/sessions", SessionController,
       only: [:create, :delete],
       singleton: true
+
+    resources "/channels", ChannelController
+    post "/channels/search", ChannelController, :search
   end
 
   defp authenticate_user(conn, _) do
