@@ -64,6 +64,7 @@ defmodule YoutubeTracker.Channels do
     |> Repo.insert()
     |> YoutubeHelper.get_playlist_uploads_id()
     |> Repo.update()
+    |> YoutubeHelper.get_channel_videos()
   end
 
 

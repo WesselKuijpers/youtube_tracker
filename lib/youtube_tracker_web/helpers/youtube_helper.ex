@@ -93,13 +93,19 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     |> save_channel_videos(channel)
   end
 
+  def get_channel_videos({:ok, channel}) do
+    get_channel_videos(channel)
+  end
+
   def map_channel_videos({200, %{items: items}}) do
     for %{
-      id: id,
       snippet: %{
         publishedAt: published_at,
         title: title,
-        description: description
+        description: description,
+        resourceId: %{
+          videoId: id
+        }
       }
     } <- items do
       %{
@@ -119,8 +125,8 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     save_channel_videos(videos, channel)
   end
 
-  def save_channel_videos([], %Channel{}) do
-    :ok
+  def save_channel_videos([], %Channel{} = channel) do
+    {:ok, channel}
   end
 
   def save_channel_video(video, %Channel{} = channel) do
