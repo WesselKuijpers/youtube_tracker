@@ -118,9 +118,6 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
   end
 
   def save_channel_videos([video | videos], %Channel{} = channel) do
-    IO.puts "ppppppppp"
-    IO.puts "ppppppppp"
-    IO.puts "ppppppppp"
     save_channel_video(video, channel)
     save_channel_videos(videos, channel)
   end
@@ -130,10 +127,6 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
   end
 
   def save_channel_video(video, %Channel{} = channel) do
-    IO.puts "dfsdfasf"
-    IO.puts "dfsdfasf"
-    IO.puts "dfsdfasf"
-    IO.puts "dfsdfasf"
     Channels.create_video(video, channel)
   end
 end

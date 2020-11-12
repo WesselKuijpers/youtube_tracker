@@ -14,9 +14,10 @@ defmodule YoutubeTracker.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: YoutubeTracker.PubSub},
       # Start the Endpoint (http/https)
-      YoutubeTrackerWeb.Endpoint
+      YoutubeTrackerWeb.Endpoint,
       # Start a worker by calling: YoutubeTracker.Worker.start_link(arg)
       # {YoutubeTracker.Worker, arg}
+      YoutubeTracker.ChannelVideosUpdater
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

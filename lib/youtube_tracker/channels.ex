@@ -20,7 +20,9 @@ defmodule YoutubeTracker.Channels do
 
   """
   def list_channels do
-    Repo.all(Channel)
+    Channel
+    |> Repo.all()
+    |> Repo.preload(:videos)
   end
 
   @doc """
@@ -191,6 +193,19 @@ defmodule YoutubeTracker.Channels do
     video
     |> Video.changeset(attrs)
     |> Repo.update()
+  end
+
+  def delete_videos(%Channel{} = channel) do
+    delete_videos(channel.videos)
+  end
+
+  def delete_videos([head | tail]) do
+    delete_video(head)
+    delete_videos(tail)
+  end
+
+  def delete_videos([]) do
+    :ok
   end
 
   @doc """
