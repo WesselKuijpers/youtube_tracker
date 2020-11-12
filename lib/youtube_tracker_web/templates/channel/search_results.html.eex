@@ -9,7 +9,7 @@
                     <%= hidden_input f, :image_url, value: result[:thumbnail_url] %>
                     <img class="card-img-top" src="<%= result[:thumbnail_url] %>" alt="Card image cap">
                         <div class="card-body">
-                            <h4 class="card-title"><%= result[:title] %></h4>
+                            <a href="https://www.youtube.com/channel/<%= result[:id] %>" target="_blank"><h4 class="card-title"><%= result[:title] %></h4></a>
                             <p class="card-text"><%= result[:description] %></p>
                             <%= submit "Track", class: "btn btn-primary" %>
                         </div>

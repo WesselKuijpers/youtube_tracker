@@ -7,6 +7,7 @@ defmodule YoutubeTracker.Repo.Migrations.CreateChannels do
       add :title, :string
       add :description, :string
       add :image_url, :string
+      add :uploads_playlist_id, :string
 
       timestamps()
     end

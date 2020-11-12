@@ -1,6 +1,7 @@
 defmodule YoutubeTracker.Accounts.Credential do
   use Ecto.Schema
   import Ecto.Changeset
+  alias YoutubeTracker.Accounts.User
 
   schema "credentials" do
     field :email, :string

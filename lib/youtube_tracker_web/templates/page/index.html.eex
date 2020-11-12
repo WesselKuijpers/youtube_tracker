@@ -20,9 +20,9 @@
         <div class="card mb-2">
           <img class="card-img-top" src="<%= channel.image_url %>" alt="Card image cap">
           <div class="card-body">
-            <h4 class="card-title"><%= channel.title %></h4>
+            <a href="https://www.youtube.com/channel/<%= channel.youtube_id %>" target="_blank"><h4 class="card-title"><%= channel.title %></h4></a>
             <p class="card-text"><%= channel.description %></p>
-            <%# <a href="#!" class="btn btn-primary">Go somewhere</a> %>
+            <a href="<%= Routes.channel_path(@conn, :show, channel.id) %>" class="btn btn-primary">See latest videos</a>
           </div>
         </div>
       </div>

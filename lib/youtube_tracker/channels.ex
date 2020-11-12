@@ -8,6 +8,8 @@ defmodule YoutubeTracker.Channels do
 
   alias YoutubeTracker.Channels.Channel
 
+  alias YoutubeTrackerWeb.YoutubeHelper
+
   @doc """
   Returns the list of channels.
 
@@ -35,7 +37,11 @@ defmodule YoutubeTracker.Channels do
       ** (Ecto.NoResultsError)
 
   """
-  def get_channel!(id), do: Repo.get!(Channel, id)
+  def get_channel!(id) do
+    Channel
+    |> Repo.get!(id)
+    |> Repo.preload(:videos)
+  end
 
   def get_channel_by_youtube_id!(youtube_id),
     do: Repo.one(from c in Channel, where: c.youtube_id == ^youtube_id)
@@ -56,8 +62,15 @@ defmodule YoutubeTracker.Channels do
     %Channel{}
     |> Channel.changeset(attrs)
     |> Repo.insert()
+    |> YoutubeHelper.get_playlist_uploads_id()
+    |> Repo.update()
   end
 
+
+  @spec update_channel(
+          YoutubeTracker.Channels.Channel.t(),
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: any
   @doc """
   Updates a channel.
 
@@ -103,5 +116,108 @@ defmodule YoutubeTracker.Channels do
   """
   def change_channel(%Channel{} = channel, attrs \\ %{}) do
     Channel.changeset(channel, attrs)
+  end
+
+  alias YoutubeTracker.Channels.Video
+
+  @doc """
+  Returns the list of videos.
+
+  ## Examples
+
+      iex> list_videos()
+      [%Video{}, ...]
+
+  """
+  def list_videos do
+    Video
+    |> Repo.all()
+    |> Repo.preload(:channel)
+  end
+
+  @doc """
+  Gets a single video.
+
+  Raises `Ecto.NoResultsError` if the Video does not exist.
+
+  ## Examples
+
+      iex> get_video!(123)
+      %Video{}
+
+      iex> get_video!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_video!(id) do
+    Video
+    |> Repo.get!(id)
+    |> Repo.preload(:channel)
+  end
+
+  @doc """
+  Creates a video.
+
+  ## Examples
+
+      iex> create_video(%{field: value})
+      {:ok, %Video{}}
+
+      iex> create_video(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_video(attrs \\ %{}, %Channel{} = channel) do
+    %Video{}
+    |> Video.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:channel, channel)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a video.
+
+  ## Examples
+
+      iex> update_video(video, %{field: new_value})
+      {:ok, %Video{}}
+
+      iex> update_video(video, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_video(%Video{} = video, attrs) do
+    video
+    |> Video.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a video.
+
+  ## Examples
+
+      iex> delete_video(video)
+      {:ok, %Video{}}
+
+      iex> delete_video(video)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_video(%Video{} = video) do
+    Repo.delete(video)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking video changes.
+
+  ## Examples
+
+      iex> change_video(video)
+      %Ecto.Changeset{data: %Video{}}
+
+  """
+  def change_video(%Video{} = video, attrs \\ %{}) do
+    Video.changeset(video, attrs)
   end
 end
