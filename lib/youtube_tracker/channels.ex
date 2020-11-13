@@ -7,6 +7,9 @@ defmodule YoutubeTracker.Channels do
   alias YoutubeTracker.Repo
 
   alias YoutubeTracker.Channels.Channel
+  alias YoutubeTracker.Accounts.User
+  alias YoutubeTracker.Accounts
+  alias YoutubeTracker.Channels
 
   alias YoutubeTrackerWeb.YoutubeHelper
 
@@ -63,14 +66,21 @@ defmodule YoutubeTracker.Channels do
       {:error, %Ecto.Changeset{}}
 
   """
-  # TODO: improve this
-  def create_channel(attrs \\ %{}) do
-    %Channel{}
-    |> Channel.changeset(attrs)
-    |> Repo.insert()
-    |> YoutubeHelper.get_playlist_uploads_id()
-    |> Repo.update()
-    |> YoutubeHelper.get_channel_videos()
+  def create_channel(attrs \\ %{}, %User{} = user) do
+    case Channels.get_channel_by_youtube_id!(attrs["youtube_id"]) do
+      nil ->
+        IO.puts "nil"
+        attrs = YoutubeHelper.expand_channel_attrs(attrs)
+
+        %Channel{}
+        |> Channel.changeset(attrs)
+        |> Repo.insert()
+        |> YoutubeHelper.get_channel_videos()
+        |> Accounts.add_channel_to_user(user)
+      channel ->
+        IO.puts "channel"
+        Accounts.add_channel_to_user(channel, user)
+    end
   end
 
   @doc """

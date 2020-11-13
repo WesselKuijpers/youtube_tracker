@@ -69,41 +69,55 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     end
   end
 
-  #TODO: get_channels function combining the search_channels and map_channels in a pipeline
+  def expand_channel_attrs(%{"youtube_id" => youtube_id}) do
+    youtube_id
+    |> get_channel
+    |> map_channel
+  end
 
   @doc """
   Takes a Channel and queries youtube for more data by the channel's youtube api
   """
-  def get_channel(%Channel{youtube_id: id}) do
+  def get_channel(id) do
     base_link = "https://www.googleapis.com/youtube/v3/channels"
 
     params = %{
-      part: "contentDetails",
+      part: "contentDetails,snippet",
       key: key(),
       id: id
     }
 
-    APIHelper.get_response(base_link, params, :atoms)
+    {_response, body} = APIHelper.get_response(base_link, params, :atoms)
+    body
   end
 
   @doc """
   takes the response from get_channel and extracts the uploads playlist id
   """
-  def map_channel_playlist_id(%{items: [%{
+  def map_channel(%{items: [%{
+    id: youtube_id,
     contentDetails: %{
       relatedPlaylists: %{
         uploads: uploads_playlist_id
       }
+    },
+    snippet: %{
+      title: title,
+      description: description,
+      thumbnails: %{
+        medium: %{
+          url: image_url
+        }
+      }
     }
   }]}) do
-    uploads_playlist_id
-  end
-
-  # TODO: clean these up, move logic
-  def get_playlist_uploads_id({:ok, %Channel{} = channel}) do
-    {200, response} = get_channel(channel)
-    playlist_id = map_channel_playlist_id(response)
-    Channel.changeset(channel, %{uploads_playlist_id: playlist_id})
+    %{
+      description: description,
+      image_url: image_url,
+      title: title,
+      youtube_id: youtube_id,
+      uploads_playlist_id: uploads_playlist_id
+    }
   end
 
   def get_channel_videos(%Channel{} = channel) do
@@ -150,7 +164,7 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
   end
 
   def save_channel_videos([], %Channel{} = channel) do
-    {:ok, channel}
+    channel
   end
 
   def save_channel_video(video, %Channel{} = channel) do
