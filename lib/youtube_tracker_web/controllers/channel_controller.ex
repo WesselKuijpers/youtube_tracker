@@ -20,6 +20,7 @@ defmodule YoutubeTrackerWeb.ChannelController do
     end
   end
 
+  # TODO: clean this up, move logic
   def create(conn, %{"channel" => channel_params}) do
     user = Accounts.get_user!(get_session(conn, "user_id"))
     case Channels.get_channel_by_youtube_id!(channel_params["youtube_id"]) do
@@ -32,6 +33,7 @@ defmodule YoutubeTrackerWeb.ChannelController do
             |> put_flash(:info, "Channel '#{channel.title}' tracked successfully.")
             |> redirect(to: "/")
 
+          # TODO: this needs to go
           {:error, _changeset} ->
             conn
             |> put_flash(:info, "Something went wrong while tracking.")

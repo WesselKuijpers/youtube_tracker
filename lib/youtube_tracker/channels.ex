@@ -45,6 +45,9 @@ defmodule YoutubeTracker.Channels do
     |> Repo.preload(:videos)
   end
 
+  @doc """
+  Gets a single channel, by its youtube id.
+  """
   def get_channel_by_youtube_id!(youtube_id),
     do: Repo.one(from c in Channel, where: c.youtube_id == ^youtube_id)
 
@@ -60,6 +63,7 @@ defmodule YoutubeTracker.Channels do
       {:error, %Ecto.Changeset{}}
 
   """
+  # TODO: improve this
   def create_channel(attrs \\ %{}) do
     %Channel{}
     |> Channel.changeset(attrs)
@@ -69,11 +73,6 @@ defmodule YoutubeTracker.Channels do
     |> YoutubeHelper.get_channel_videos()
   end
 
-
-  @spec update_channel(
-          YoutubeTracker.Channels.Channel.t(),
-          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
-        ) :: any
   @doc """
   Updates a channel.
 

@@ -17,6 +17,7 @@ defmodule YoutubeTracker.Application do
       YoutubeTrackerWeb.Endpoint,
       # Start a worker by calling: YoutubeTracker.Worker.start_link(arg)
       # {YoutubeTracker.Worker, arg}
+      # Job for updating the videos:
       YoutubeTracker.ChannelVideosUpdater
     ]
 

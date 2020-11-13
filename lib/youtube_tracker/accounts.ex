@@ -98,6 +98,9 @@ defmodule YoutubeTracker.Accounts do
     |> Repo.update()
   end
 
+  @doc """
+  Associates a user with a channel
+  """
   def add_channel_to_user(channel, %User{} = user) do
     user
     |> Repo.preload(:channels)

@@ -1,12 +1,25 @@
 defmodule YoutubeTrackerWeb.YoutubeHelper do
+  @moduledoc """
+  The YoutubeHelper helps with making requests to the youtube API.
+  It uses the api_helper to do this
+  """
+
   alias YoutubeTrackerWeb.APIHelper
   alias YoutubeTracker.Channels.Channel
   alias YoutubeTracker.Channels
 
   def key do
-    "AIzaSyDEhheLyAulQtshEK4SL5a7AZuXIDz3k8c"
+    Application.get_env(:youtube_tracker, :youtube_key)
   end
 
+  @doc """
+  Searches youtube for the given query, returns as many results as quantity specifies
+  Response still needs to be mapped to be usefull
+  example:
+
+  search_channels("example")
+  search_channels("example", 10)
+  """
   def search_channels(query) do
     search_channels(query, 10)
   end
@@ -33,6 +46,11 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     APIHelper.get_response(base_link, params, :atoms)
   end
 
+  @doc """
+  Maps the response from search_channels to a list of lists containing data
+  for each channel that was found.
+  Takes decoded json response
+  """
   def map_channels(%{items: items}) do
     for %{
           id: %{channelId: id},
@@ -51,6 +69,11 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     end
   end
 
+  #TODO: get_channels function combining the search_channels and map_channels in a pipeline
+
+  @doc """
+  Takes a Channel and queries youtube for more data by the channel's youtube api
+  """
   def get_channel(%Channel{youtube_id: id}) do
     base_link = "https://www.googleapis.com/youtube/v3/channels"
 
@@ -63,6 +86,9 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     APIHelper.get_response(base_link, params, :atoms)
   end
 
+  @doc """
+  takes the response from get_channel and extracts the uploads playlist id
+  """
   def map_channel_playlist_id(%{items: [%{
     contentDetails: %{
       relatedPlaylists: %{
@@ -73,6 +99,7 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
     uploads_playlist_id
   end
 
+  # TODO: clean these up, move logic
   def get_playlist_uploads_id({:ok, %Channel{} = channel}) do
     {200, response} = get_channel(channel)
     playlist_id = map_channel_playlist_id(response)

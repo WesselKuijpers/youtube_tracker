@@ -1,4 +1,8 @@
 defmodule YoutubeTracker.ChannelVideosUpdater do
+  @moduledoc """
+  Task that runs every hour and updates the videolist for every tracked channel
+  """
+
   use Task
 
   alias YoutubeTracker.Channels
