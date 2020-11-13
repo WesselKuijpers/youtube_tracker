@@ -55,7 +55,7 @@ defmodule YoutubeTracker.Channels do
     do: Repo.one(from c in Channel, where: c.youtube_id == ^youtube_id)
 
   @doc """
-  Creates a channel.
+  Creates a channel, if it doesn't exist yet. Associate it with user
 
   ## Examples
 
@@ -67,9 +67,10 @@ defmodule YoutubeTracker.Channels do
 
   """
   def create_channel(attrs \\ %{}, %User{} = user) do
+    # see if the requested channel exist
     case Channels.get_channel_by_youtube_id!(attrs["youtube_id"]) do
       nil ->
-        IO.puts "nil"
+        #  if not, create and associat
         attrs = YoutubeHelper.expand_channel_attrs(attrs)
 
         %Channel{}
@@ -78,7 +79,7 @@ defmodule YoutubeTracker.Channels do
         |> YoutubeHelper.get_channel_videos()
         |> Accounts.add_channel_to_user(user)
       channel ->
-        IO.puts "channel"
+        # else, associate it
         Accounts.add_channel_to_user(channel, user)
     end
   end

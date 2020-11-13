@@ -3,10 +3,10 @@ defmodule YoutubeTrackerWeb.ChannelController do
 
   alias YoutubeTracker.Channels
   alias YoutubeTracker.Channels.Channel
-  alias YoutubeTracker.Accounts
   alias YoutubeTrackerWeb.YoutubeHelper
 
   def search(conn, %{"query" => query, "quantity" => quantity}) do
+    # use quesry to get search results from youtube, if succesfull render results else redirect back
     case YoutubeHelper.search_channels(query, quantity) do
       {200, response} ->
         results = YoutubeHelper.map_channels(response)
@@ -20,18 +20,15 @@ defmodule YoutubeTrackerWeb.ChannelController do
     end
   end
 
+
   def create(conn, %{"channel" => channel_params}) do
+    # possibly create, associates a channel with a user
     user = Guardian.Plug.current_resource(conn)
-    case Channels.create_channel(channel_params, user) do
-      {:ok, channel} ->
-        conn
-        |> put_flash(:info, "Channel '#{channel.title}' tracked successfully.")
-        |> redirect(to: "/")
-      {:error, _changeset} ->
-        conn
-        |> put_flash(:info, "Something went wrong while tracking.")
-        |> redirect(to: "/")
-    end
+    channel = Channels.create_channel(channel_params, user)
+
+    conn
+    |> put_flash(:info, "Channel '#{channel.title}' tracked successfully.")
+    |> redirect(to: "/")
   end
 
   def show(conn, %{"id" => id}) do

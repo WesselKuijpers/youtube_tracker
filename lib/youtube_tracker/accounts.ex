@@ -106,7 +106,7 @@ defmodule YoutubeTracker.Accounts do
     |> Ecto.Changeset.put_assoc(:channels, [channel | user.channels])
     |> Repo.update!()
 
-    {:ok, channel}
+    channel
   end
 
   @doc """

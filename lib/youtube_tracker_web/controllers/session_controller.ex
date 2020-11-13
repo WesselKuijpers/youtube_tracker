@@ -6,18 +6,24 @@ defmodule YoutubeTrackerWeb.SessionController do
   alias YoutubeTrackerWeb.GuardianSerializer
 
   def create(conn, %{"user" => %{"email" => email, "password" => password}}) do
+    # find user by email
     user = Accounts.authenticate_by_email(email)
 
+    # check for result
     result = cond do
+      # if user found and password matches, authenticate
       user && checkpw(password, user.credential.password_hash) ->
         {:ok, GuardianSerializer.Plug.sign_in(conn, user)}
+      # if user is found, but password does not match bounce
       user ->
         {:error, :unauthorized, conn}
+      # any other circumstance; bounce
       true ->
         dummy_checkpw()
         {:error, :not_found, conn}
     end
 
+    # check authentication result to decide on redirect message
     case result do
       {:ok, conn} ->
         conn

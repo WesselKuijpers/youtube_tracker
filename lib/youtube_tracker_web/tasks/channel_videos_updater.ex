@@ -37,7 +37,9 @@ defmodule YoutubeTracker.ChannelVideosUpdater do
   end
 
   def refresh_channel(%Channel{} = channel) do
+    # deletes all a channels existing videos
     Channels.delete_videos(channel)
+    # save newest videos
     YoutubeHelper.get_channel_videos(channel)
   end
 end
