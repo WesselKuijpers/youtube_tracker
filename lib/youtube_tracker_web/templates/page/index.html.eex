@@ -2,13 +2,13 @@
   <div class="row">
     <div class="col-12">
       <%= form_for @conn, Routes.channel_path(@conn, :search), [method: :post, class: "form-inline"], fn f -> %>
-        <div class="form-group mr-2">
-          <%= text_input f, :query, placeholder: "Search for a youtube channel" %>
+        <div class="form-group w-50">
+          <%= text_input f, :query, placeholder: "Search for a youtube channel", class: "mr-2"%>
         </div>
-        <div class="form-group mr-2">
-          <%= number_input f, :quantity, placeholder: "quantity"%>
+        <div class="form-group w-25">
+          <%= number_input f, :quantity, placeholder: "quantity", class: "mr-2"%>
         </div>
-        <div class="form-group">
+        <div class="form-group w-25">
           <%= submit "Search", class: "btn btn-primary"%>
         </div>
       <% end %>
@@ -25,7 +25,7 @@
           <img class="card-img-top" src="<%= channel.image_url %>" alt="Card image cap">
           <div class="card-body">
             <a href="https://www.youtube.com/channel/<%= channel.youtube_id %>" target="_blank"><h4 class="card-title"><%= channel.title %></h4></a>
-            <p class="card-text"><%= channel.description %></p>
+            <p class="card-text"><%= truncate_description(channel.description, 100) %></p>
             <a href="<%= Routes.channel_path(@conn, :show, channel.id) %>" class="btn btn-primary">See latest videos</a>
           </div>
         </div>
@@ -42,7 +42,8 @@
         <div class="card mb-2">
           <div class="card-body">
             <a href="<%= Routes.channel_path(@conn, :show, video.channel.id) %>#<%= video.youtube_id %>" target="_blank"><h4 class="card-title"><%= video.title %></h4></a>
-            <p class="card-text"><%= video.description %></p>
+            <p class="card-text"><%= truncate_description(video.description, 60) %></p>
+            <p class="card-text"><b>Channel: </b><%= video.channel.title %></p>
           </div>
         </div>
       </div>

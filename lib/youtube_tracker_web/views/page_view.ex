@@ -19,5 +19,10 @@ defmodule YoutubeTrackerWeb.PageView do
       videos
     end
     |> List.flatten()
+    |> Enum.sort_by(fn(video) -> video.published_at end)
+  end
+
+  def truncate_description(string, length) do
+    "#{string |> String.slice(0, length) |> String.trim_trailing}..."
   end
 end
