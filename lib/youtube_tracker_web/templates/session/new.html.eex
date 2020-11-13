@@ -3,6 +3,6 @@
   <%= text_input f, :email, placeholder: "Email" %>
 </div>
 <div class="form-group">
-  <%= submit "Login" %>
+  <%= submit "Login", class: "btn btn-primary" %>
 </div>
 <% end %>

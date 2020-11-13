@@ -15,12 +15,16 @@
     <%= error_tag f, :username %>
   </div>
 
-  <div class="form-group">
-    <%= inputs_for f, :credential, fn cf -> %>
-    <%= text_input cf, :email , placeholder: "email" %>
-    <%= error_tag cf, :email %>
-    <% end %>
-  </div>
+  <%= inputs_for f, :credential, fn cf -> %>
+    <div class="form-group">
+      <%= text_input cf, :email , placeholder: "email" %>
+      <%= error_tag cf, :email %>
+    </div>
+    <div class="form-group">
+      <%= password_input cf, :password , placeholder: "password" %>
+      <%= error_tag cf, :password %>
+    </div>
+  <% end %>
 
   <div>
     <%= submit "Submit", class: "btn btn-primary"%>
