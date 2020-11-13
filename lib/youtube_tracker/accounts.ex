@@ -57,7 +57,7 @@ defmodule YoutubeTracker.Accounts do
     User
     |> Repo.get!(id)
     |> Repo.preload(:credential)
-    |> Repo.preload(:channels)
+    |> Repo.preload(channels: [videos: :channel])
   end
 
   @doc """

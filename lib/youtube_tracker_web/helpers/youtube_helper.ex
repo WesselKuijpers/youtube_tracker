@@ -39,7 +39,7 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
           snippet: %{
             title: title,
             description: description,
-            thumbnails: %{high: %{url: thumbnail_url}}
+            thumbnails: %{medium: %{url: thumbnail_url}}
           }
         } <- items do
       [

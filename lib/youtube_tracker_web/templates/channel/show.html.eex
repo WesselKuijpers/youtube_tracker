@@ -5,7 +5,7 @@
         <hr>
         <div class="row">
             <%= for video <- @channel.videos do %>
-                <div class=" col-sm-12 col-md-12 col-lg-6">
+                <div class=" col-sm-12 col-md-12 col-lg-6" id="<%= video.youtube_id %>">
                     <div class="card mb-2">
                         <div class="card-body">
                             <iframe class="card-img-top" width="560" height="315" src="https://www.youtube.com/embed/<%= video.youtube_id %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
