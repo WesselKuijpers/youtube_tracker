@@ -17,10 +17,8 @@ defmodule YoutubeTracker.Accounts do
         inner_join: c in assoc(u, :credential),
         where: c.email == ^email
 
-    case Repo.one(query) do
-      %User{} = user -> {:ok, user}
-      nil -> {:error, :unauthorized}
-    end
+    Repo.one(query)
+    |> Repo.preload(:credential)
   end
 
   @doc """

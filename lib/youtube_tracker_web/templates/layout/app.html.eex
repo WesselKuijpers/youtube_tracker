@@ -17,7 +17,7 @@
       <a class="navbar-brand" href="/">
         <h1>Youtube Tracker</h1>
       </a>
-      <%= if Plug.Conn.get_session(@conn, "user_id") do %>
+      <%= if @current_user do %>
         <%= form_for @conn, Routes.session_path(@conn, :delete), [class: "form-inline my-2 my-lg-0 mr-auto", method: :delete, as: :user], fn _ -> %>
           <%= submit "logout", class: "btn btn-primary my-2 my-sm-0"%>
         <% end %>
@@ -27,7 +27,7 @@
   <main role="main" class="container">
     <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
     <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-    <%= if Plug.Conn.get_session(@conn, "user_id") do %>
+    <%= if @current_user do %>
       <%= @inner_content %>
     <% else %>
       <div class="row">

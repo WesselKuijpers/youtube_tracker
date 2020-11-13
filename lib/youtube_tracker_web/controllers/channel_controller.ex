@@ -21,7 +21,7 @@ defmodule YoutubeTrackerWeb.ChannelController do
   end
 
   def create(conn, %{"channel" => channel_params}) do
-    user = Accounts.get_user!(get_session(conn, "user_id"))
+    user = Guardian.Plug.current_resource(conn)
     case Channels.create_channel(channel_params, user) do
       {:ok, channel} ->
         conn

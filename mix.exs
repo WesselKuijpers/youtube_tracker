@@ -47,7 +47,8 @@ defmodule YoutubeTracker.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.7"},
       {:poison, "~> 4.0"},
-      {:comeonin, "~> 2.5"}
+      {:comeonin, "~> 2.5"},
+      {:guardian, "~> 2.1.1"}
     ]
   end
 

@@ -1,4 +1,4 @@
-<%= if Plug.Conn.get_session(@conn, "user_id") do %>
+<%= if @current_user do %>
   <div class="row">
     <div class="col-12">
       <%= form_for @conn, Routes.channel_path(@conn, :search), [method: :post, class: "form-inline"], fn f -> %>
@@ -19,7 +19,7 @@
     <div class="col-12">
       <h1>Tracked channels:</h1>
     </div>
-    <%= for channel <- current_user(@conn).channels do %>
+    <%= for channel <- @current_user.channels do %>
       <div class="col-sm-12 col-md-12 col-lg-4">
         <div class="card mb-2">
           <img class="card-img-top" src="<%= channel.image_url %>" alt="Card image cap">

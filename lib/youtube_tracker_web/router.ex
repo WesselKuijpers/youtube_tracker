@@ -9,12 +9,20 @@ defmodule YoutubeTrackerWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :auth do
+    plug YoutubeTracker.UserManager.Pipeline
+    plug YoutubeTracker.CurrentUser
   end
 
+  # pipeline :with_session do
+  #   plug Guardian.Plug.Pipeline, module: GuardianSerializer, error_handler: YoutubeTracker.AuthErrorHandler
+  #   plug Guardian.Plug.VerifySession
+  #   plug Guardian.Plug.LoadResource
+  #   plug YoutubeTracker.CurrentUser
+  # end
+
   scope "/", YoutubeTrackerWeb do
-    pipe_through :browser
+    pipe_through [:browser, :auth]
 
     get "/", PageController, :index
     post "/users", UserController, :create
