@@ -24,7 +24,7 @@
         <div class="card mb-2">
           <img class="card-img-top" src="<%= channel.image_url %>" alt="Card image cap">
           <div class="card-body">
-            <a href="https://www.youtube.com/channel/<%= channel.youtube_id %>"><h4 class="card-title"><%= channel.title %></h4></a>
+            <a href="https://www.youtube.com/channel/<%= channel.youtube_id %>" target="_blank"><h4 class="card-title"><%= channel.title %></h4></a>
             <p class="card-text"><%= truncate_description(channel.description, 100) %></p>
             <a href="<%= Routes.channel_path(@conn, :show, channel.id) %>" class="btn btn-primary">See latest videos</a>
           </div>
@@ -41,7 +41,7 @@
       <div class=" col-sm-12 col-md-12 col-lg-4" id="<%= video.youtube_id %>">
         <div class="card mb-2">
           <div class="card-body">
-            <a href="<%= Routes.channel_path(@conn, :show, video.channel.id) %>#<%= video.youtube_id %>" target="_blank"><h4 class="card-title"><%= video.title %></h4></a>
+            <a href="<%= Routes.channel_path(@conn, :show, video.channel.id) %>#<%= video.youtube_id %>"><h4 class="card-title"><%= video.title %></h4></a>
             <p class="card-text"><%= truncate_description(video.description, 60) %></p>
             <p class="card-text"><b>Channel: </b><%= video.channel.title %></p>
           </div>

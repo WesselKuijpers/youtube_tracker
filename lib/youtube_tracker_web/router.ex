@@ -14,12 +14,9 @@ defmodule YoutubeTrackerWeb.Router do
     plug YoutubeTracker.CurrentUser
   end
 
-  # pipeline :with_session do
-  #   plug Guardian.Plug.Pipeline, module: GuardianSerializer, error_handler: YoutubeTracker.AuthErrorHandler
-  #   plug Guardian.Plug.VerifySession
-  #   plug Guardian.Plug.LoadResource
-  #   plug YoutubeTracker.CurrentUser
-  # end
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
 
   scope "/", YoutubeTrackerWeb do
     pipe_through [:browser, :auth]
@@ -30,42 +27,11 @@ defmodule YoutubeTrackerWeb.Router do
     resources "/sessions", SessionController,
       only: [:create, :delete],
       singleton: true
+  end
 
+  scope "/", YoutubeTrackerWeb do
+    pipe_through [:browser, :auth, :ensure_auth]
     resources "/channels", ChannelController, only: [:create, :show]
     post "/channels/search", ChannelController, :search
-  end
-
-  defp authenticate_user(conn, _) do
-    case get_session(conn, :user_id) do
-      nil ->
-        conn
-        |> Phoenix.Controller.put_flash(:error, "login required!")
-        |> Phoenix.Controller.redirect(to: "/")
-        |> halt()
-
-      user_id ->
-        assign(conn, :current_user, YoutubeTracker.Accounts.get_user!(user_id))
-    end
-  end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", YoutubeTrackerWeb do
-  #   pipe_through :api
-  # end
-
-  # Enables LiveDashboard only for development
-  #
-  # If you want to use the LiveDashboard in production, you should put
-  # it behind authentication and allow only admins to access it.
-  # If your application does not have an admins-only section yet,
-  # you can use Plug.BasicAuth to set up some basic authentication
-  # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: YoutubeTrackerWeb.Telemetry
-    end
   end
 end
