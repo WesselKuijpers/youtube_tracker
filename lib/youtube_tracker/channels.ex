@@ -70,7 +70,7 @@ defmodule YoutubeTracker.Channels do
     # see if the requested channel exist
     case Channels.get_channel_by_youtube_id!(attrs["youtube_id"]) do
       nil ->
-        #  if not, create and associat
+        #  if not, create and associate
         attrs = YoutubeHelper.expand_channel_attrs(attrs)
 
         %Channel{}
@@ -78,6 +78,7 @@ defmodule YoutubeTracker.Channels do
         |> Repo.insert()
         |> YoutubeHelper.get_channel_videos()
         |> Accounts.add_channel_to_user(user)
+
       channel ->
         # else, associate it
         Accounts.add_channel_to_user(channel, user)

@@ -15,10 +15,10 @@ defmodule YoutubeTracker.ChannelVideosUpdater do
 
   def schedule() do
     receive do
-      after
-        3600_000 ->
-          refresh_videos()
-          schedule()
+    after
+      3600_000 ->
+        refresh_videos()
+        schedule()
     end
   end
 

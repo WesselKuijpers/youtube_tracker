@@ -6,7 +6,7 @@
           <%= text_input f, :query, placeholder: "Search for a youtube channel", class: "mr-2"%>
         </div>
         <div class="form-group w-25">
-          <%= number_input f, :quantity, placeholder: "quantity", class: "mr-2"%>
+          <%= number_input f, :quantity, placeholder: "quantity", class: "mr-2" %>
         </div>
         <div class="form-group w-25">
           <%= submit "Search", class: "btn btn-primary"%>

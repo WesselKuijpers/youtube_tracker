@@ -1,5 +1,7 @@
-
 defmodule YoutubeTracker.UserManager.Pipeline do
+  @moduledoc """
+  pipeline for making authenication possible
+  """
   use Guardian.Plug.Pipeline,
     otp_app: :youtube_tracker,
     error_handler: YoutubeTracker.AuthErrorHandler,

@@ -30,7 +30,7 @@ The Channels context contains code for storing and querying youtube channels and
 
 Furthermore there are several helpers for authentication and interacting with the Youtube API
 
-## Using the app
+## Using the app:
 
 When first accessing the app you are presented with a UI for either registering or logging in.
 

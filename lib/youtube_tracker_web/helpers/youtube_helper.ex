@@ -94,23 +94,27 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
   @doc """
   takes the response from get_channel and extracts the uploads playlist id
   """
-  def map_channel(%{items: [%{
-    id: youtube_id,
-    contentDetails: %{
-      relatedPlaylists: %{
-        uploads: uploads_playlist_id
-      }
-    },
-    snippet: %{
-      title: title,
-      description: description,
-      thumbnails: %{
-        medium: %{
-          url: image_url
-        }
-      }
-    }
-  }]}) do
+  def map_channel(%{
+        items: [
+          %{
+            id: youtube_id,
+            contentDetails: %{
+              relatedPlaylists: %{
+                uploads: uploads_playlist_id
+              }
+            },
+            snippet: %{
+              title: title,
+              description: description,
+              thumbnails: %{
+                medium: %{
+                  url: image_url
+                }
+              }
+            }
+          }
+        ]
+      }) do
     %{
       description: description,
       image_url: image_url,
@@ -122,6 +126,7 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
 
   def get_channel_videos(%Channel{} = channel) do
     base_link = "https://www.googleapis.com/youtube/v3/playlistItems"
+
     params = %{
       key: key(),
       part: "snippet",
@@ -140,15 +145,15 @@ defmodule YoutubeTrackerWeb.YoutubeHelper do
 
   def map_channel_videos({200, %{items: items}}) do
     for %{
-      snippet: %{
-        publishedAt: published_at,
-        title: title,
-        description: description,
-        resourceId: %{
-          videoId: id
-        }
-      }
-    } <- items do
+          snippet: %{
+            publishedAt: published_at,
+            title: title,
+            description: description,
+            resourceId: %{
+              videoId: id
+            }
+          }
+        } <- items do
       %{
         youtube_id: id,
         published_at: published_at,

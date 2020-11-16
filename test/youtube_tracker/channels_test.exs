@@ -81,8 +81,18 @@ defmodule YoutubeTracker.ChannelsTest do
   describe "videos" do
     alias YoutubeTracker.Channels.Video
 
-    @valid_attrs %{description: "some description", published_at: ~D[2010-04-17], title: "some title", youtube_id: "some youtube_id"}
-    @update_attrs %{description: "some updated description", published_at: ~D[2011-05-18], title: "some updated title", youtube_id: "some updated youtube_id"}
+    @valid_attrs %{
+      description: "some description",
+      published_at: ~D[2010-04-17],
+      title: "some title",
+      youtube_id: "some youtube_id"
+    }
+    @update_attrs %{
+      description: "some updated description",
+      published_at: ~D[2011-05-18],
+      title: "some updated title",
+      youtube_id: "some updated youtube_id"
+    }
     @invalid_attrs %{description: nil, published_at: nil, title: nil, youtube_id: nil}
 
     def video_fixture(attrs \\ %{}) do

@@ -1,20 +1,20 @@
 <div class="row">
-    <%= for result <- @results do%>
-        <div class="col-sm-12 col-md-12 col-lg-4">
-            <div class="card mb-2">
-                <%= form_for @changeset, Routes.channel_path(@conn, :create), fn f -> %>
-                    <%= hidden_input f, :youtube_id, value: result[:id]%>
-                    <%= hidden_input f, :title, value: result[:title] %>
-                    <%= hidden_input f, :description, value: result[:description] %>
-                    <%= hidden_input f, :image_url, value: result[:thumbnail_url] %>
-                    <img class="card-img-top" src="<%= result[:thumbnail_url] %>" alt="Card image cap">
-                        <div class="card-body">
-                            <a href="https://www.youtube.com/channel/<%= result[:id] %>" target="_blank"><h4 class="card-title"><%= result[:title] %></h4></a>
-                            <p class="card-text"><%= result[:description] %></p>
-                            <%= submit "Track", class: "btn btn-primary" %>
-                        </div>
-                    </div>
-                <% end %>
-            </div>
-    <% end %>
+  <%= for result <- @results do%>
+    <div class="col-sm-12 col-md-12 col-lg-4">
+      <div class="card mb-2">
+        <%= form_for @changeset, Routes.channel_path(@conn, :create), fn f -> %>
+          <%= hidden_input f, :youtube_id, value: result[:id]%>
+          <%= hidden_input f, :title, value: result[:title] %>
+          <%= hidden_input f, :description, value: result[:description] %>
+          <%= hidden_input f, :image_url, value: result[:thumbnail_url] %>
+          <img class="card-img-top" src="<%= result[:thumbnail_url] %>" alt="Card image cap">
+          <div class="card-body">
+            <a href="https://www.youtube.com/channel/<%= result[:id] %>" target="_blank"><h4 class="card-title"><%= result[:title] %></h4></a>
+            <p class="card-text"><%= result[:description] %></p>
+            <%= submit "Track", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

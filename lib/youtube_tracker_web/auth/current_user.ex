@@ -1,4 +1,7 @@
 defmodule YoutubeTracker.CurrentUser do
+  @moduledoc """
+  plug for making the current user more readily available
+  """
   import Plug.Conn
   import Guardian.Plug
 

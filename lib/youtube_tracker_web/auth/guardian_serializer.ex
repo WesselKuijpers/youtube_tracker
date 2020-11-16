@@ -1,4 +1,7 @@
 defmodule YoutubeTrackerWeb.GuardianSerializer do
+  @moduledoc """
+  serializer, a requirement for using the guardian library
+  """
   use Guardian, otp_app: :youtube_tracker
 
   alias YoutubeTracker.Accounts
